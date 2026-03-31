@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velvet Brew — Coffee, Tea & Cakes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --burgundy:      #6b1a2b;
+  --burgundy-dark: #4a0f1c;
+  --burgundy-mid:  #8c2235;
+  --burgundy-light:#b84060;
+  --xanthous:      #f5b800;
+  --xanthous-dark: #d49a00;
+  --xanthous-pale: #fde8a0;
+  --xanthous-cream:#fff8e1;
+  --cream:         #fdf6ec;
+  --parchment:     #f5ead8;
+  --ink:           #2a1018;
+  --muted:         #7a5060;
+  --white:         #ffffff;
+  --shadow: 0 8px 32px rgba(107,26,43,0.18);
+  --shadow-sm: 0 2px 12px rgba(107,26,43,0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  opacity: .018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--parchment); }
+::-webkit-scrollbar-thumb { background: var(--burgundy-light); border-radius: 99px; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 500;
+  background: var(--burgundy-dark);
+  border-bottom: 3px solid var(--xanthous);
+  display: flex; align-items: center;
+  padding: 0 3rem;
+  height: 70px;
+  box-shadow: 0 4px 24px rgba(74,15,28,0.4);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 900; font-style: italic;
+  color: var(--xanthous); letter-spacing: .5px;
+  flex: 1;
+}
+.nav-logo span { color: var(--white); font-weight: 400; font-size: 1rem; letter-spacing: 2px; display: block; font-style: normal; font-family: 'DM Sans', sans-serif; text-transform: uppercase; }
+
+.nav-cats { display: flex; gap: .25rem; flex: 2; justify-content: center; flex-wrap: wrap; }
+.cat-btn {
+  background: transparent; border: 1px solid transparent;
+  color: rgba(255,255,255,0.65); font-family: 'DM Sans', sans-serif;
+  font-size: .78rem; font-weight: 500; letter-spacing: .5px; text-transform: uppercase;
+  padding: .4rem .85rem; border-radius: 99px; cursor: pointer;
+  transition: all .2s;
+}
+.cat-btn:hover { color: var(--xanthous); border-color: rgba(245,184,0,.3); }
+.cat-btn.active { background: var(--xanthous); color: var(--burgundy-dark); font-weight: 700; border-color: var(--xanthous); }
+
+.nav-right { display: flex; align-items: center; gap: 1rem; flex: 1; justify-content: flex-end; }
+
+.cart-btn {
+  position: relative; background: var(--xanthous);
+  border: none; border-radius: 50px;
+  padding: .5rem 1.2rem; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-weight: 700;
+  font-size: .85rem; color: var(--burgundy-dark);
+  display: flex; align-items: center; gap: .5rem;
+  transition: all .2s; white-space: nowrap;
+}
+.cart-btn:hover { background: var(--xanthous-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(245,184,0,.4); }
+.cart-count {
+  background: var(--burgundy-dark); color: var(--xanthous);
+  width: 20px; height: 20px; border-radius: 50%;
+  font-size: .7rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; overflow: hidden;
+  background: var(--burgundy-dark);
+  min-height: 520px;
+  display: flex; align-items: center;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(245,184,0,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 20% 50%, rgba(140,34,53,0.5) 0%, transparent 60%),
+    linear-gradient(135deg, #2a0a12 0%, #4a0f1c 40%, #6b1a2b 100%);
+}
+
+.hero-pattern {
+  position: absolute; inset: 0; opacity: .04;
+  background-image: repeating-linear-gradient(45deg, var(--xanthous) 0, var(--xanthous) 1px, transparent 0, transparent 50%);
+  background-size: 24px 24px;
+}
+
+.hero-content {
+  position: relative; z-index: 1;
+  padding: 4rem 3rem; max-width: 1200px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+}
+
+.hero-tag {
+  display: inline-block; margin-bottom: 1.25rem;
+  background: rgba(245,184,0,.15); border: 1px solid rgba(245,184,0,.4);
+  color: var(--xanthous); font-size: .72rem; font-weight: 600;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  padding: .35rem 1rem; border-radius: 99px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.2rem; font-weight: 900; line-height: 1.0;
+  color: var(--white); margin-bottom: 1.25rem;
+}
+.hero h1 em { color: var(--xanthous); font-style: italic; }
+
+.hero p {
+  color: rgba(255,255,255,0.65); font-size: 1rem;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+  line-height: 1.7; margin-bottom: 2rem;
+}
+
+.hero-imgs {
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: .75rem;
+}
+
+.hero-img-main {
+  grid-column: 1 / -1;
+  border-radius: 12px; overflow: hidden;
+  height: 220px; position: relative;
+  border: 2px solid rgba(245,184,0,.3);
+  box-shadow: 0 16px 48px rgba(0,0,0,.4);
+}
+
+.hero-img-small {
+  border-radius: 10px; overflow: hidden;
+  height: 120px; position: relative;
+  border: 2px solid rgba(245,184,0,.2);
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+}
+
+.hero-img-main img,
+.hero-img-small img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s ease;
+}
+.hero-img-main:hover img,
+.hero-img-small:hover img { transform: scale(1.05); }
+
+.img-label {
+  position: absolute; bottom: .6rem; left: .6rem;
+  background: rgba(74,15,28,0.85); backdrop-filter: blur(4px);
+  color: var(--xanthous); font-size: .65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  padding: .25rem .6rem; border-radius: 99px;
+  border: 1px solid rgba(245,184,0,.3);
+}
+
+/* ── SEARCH ── */
+.search-bar-wrap {
+  background: var(--burgundy);
+  padding: 1rem 3rem;
+  display: flex; gap: 1rem; align-items: center;
+}
+.search-input {
+  flex: 1; padding: .65rem 1.25rem;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(245,184,0,.25);
+  border-radius: 8px; color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: .9rem;
+  outline: none; transition: border-color .2s;
+}
+.search-input:focus { border-color: var(--xanthous); }
+.search-input::placeholder { color: rgba(255,255,255,.35); }
+.search-label { color: rgba(255,255,255,.5); font-size: .82rem; white-space: nowrap; }
+
+/* ── MENU SECTION ── */
+.menu-section { padding: 3rem; max-width: 1400px; margin: 0 auto; }
+
+.section-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 2rem; padding-bottom: 1rem;
+  border-bottom: 2px solid var(--parchment);
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 900; color: var(--burgundy-dark);
+}
+.section-title span { color: var(--burgundy-light); font-style: italic; }
+.item-count { font-size: .82rem; color: var(--muted); }
+
+/* ── ITEM GRID ── */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.item-card {
+  background: var(--white);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--parchment);
+  box-shadow: var(--shadow-sm);
+  transition: all .25s ease;
+  display: flex; flex-direction: column;
+  animation: fadeUp .4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: rgba(245,184,0,.4);
+}
+
+.item-img {
+  height: 150px; overflow: hidden; position: relative;
+  background: var(--parchment);
+  flex-shrink: 0;
+}
+.item-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.item-card:hover .item-img img { transform: scale(1.06); }
+
+.item-badge {
+  position: absolute; top: .6rem; left: .6rem;
+  font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  padding: .2rem .55rem; border-radius: 99px;
+}
+.badge-hot { background: var(--burgundy); color: var(--xanthous); }
+.badge-new { background: var(--xanthous); color: var(--burgundy-dark); }
+.badge-veg { background: #2d6a4f; color: #b7e4c7; }
+.badge-best { background: var(--burgundy-dark); color: var(--white); }
+
+.item-body { padding: 1rem 1rem .75rem; flex: 1; display: flex; flex-direction: column; }
+.item-cat { font-size: .65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--burgundy-light); margin-bottom: .25rem; }
+.item-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: .35rem; }
+.item-desc { font-size: .78rem; color: var(--muted); line-height: 1.5; flex: 1; }
+
+.item-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .75rem 1rem;
+  border-top: 1px solid var(--parchment);
+  background: var(--xanthous-cream);
+}
+.item-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; font-weight: 900; color: var(--burgundy-dark);
+}
+.item-price span { font-size: .75rem; font-weight: 400; color: var(--muted); font-family: 'DM Sans', sans-serif; }
+
+.add-btn {
+  background: var(--burgundy); color: var(--xanthous);
+  border: none; border-radius: 8px;
+  width: 34px; height: 34px; font-size: 1.2rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .2s; font-weight: 700;
+}
+.add-btn:hover { background: var(--burgundy-dark); transform: scale(1.1); }
+.add-btn.added { background: var(--xanthous); color: var(--burgundy-dark); }
+
+.qty-ctrl {
+  display: flex; align-items: center; gap: .4rem;
+}
+.qty-btn {
+  background: var(--parchment); border: 1px solid var(--parchment);
+  border-radius: 6px; width: 28px; height: 28px;
+  cursor: pointer; font-size: .9rem; font-weight: 700;
+  color: var(--burgundy); transition: all .15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.qty-btn:hover { background: var(--burgundy); color: var(--xanthous); }
+.qty-num { font-size: .88rem; font-weight: 700; color: var(--ink); min-width: 18px; text-align: center; }
+
+/* ── CART PANEL ── */
+.cart-overlay {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(42,16,24,.6); backdrop-filter: blur(4px);
+  display: none;
+}
+.cart-overlay.open { display: block; }
+
+.cart-panel {
+  position: fixed; right: 0; top: 0; bottom: 0;
+  width: 420px; max-width: 100vw;
+  background: var(--white);
+  border-left: 3px solid var(--xanthous);
+  z-index: 900;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  box-shadow: -8px 0 48px rgba(74,15,28,.3);
+}
+.cart-panel.open { transform: translateX(0); }
+
+.cart-header {
+  background: var(--burgundy-dark);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 2px solid var(--xanthous);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.cart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; font-weight: 900; color: var(--xanthous);
+}
+.cart-close {
+  background: none; border: none; color: rgba(255,255,255,.6);
+  font-size: 1.4rem; cursor: pointer; transition: color .2s;
+}
+.cart-close:hover { color: var(--xanthous); }
+
+.cart-items { flex: 1; overflow-y: auto; padding: 1rem; }
+
+.cart-empty {
+  text-align: center; padding: 3rem 1rem; color: var(--muted);
+}
+.cart-empty .empty-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.cart-empty p { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
+
+.cart-item {
+  display: flex; gap: .75rem; align-items: flex-start;
+  padding: .85rem 0; border-bottom: 1px solid var(--parchment);
+}
+.cart-item-img {
+  width: 60px; height: 60px; border-radius: 8px; overflow: hidden; flex-shrink: 0;
+  border: 1px solid var(--parchment);
+}
+.cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+.cart-item-info { flex: 1; }
+.cart-item-name { font-family: 'Playfair Display', serif; font-size: .92rem; font-weight: 700; margin-bottom: .2rem; }
+.cart-item-price { font-size: .82rem; color: var(--burgundy-light); font-weight: 600; }
+.cart-item-ctrl { display: flex; align-items: center; gap: .4rem; margin-top: .4rem; }
+.cart-remove { background: none; border: none; color: var(--muted); font-size: .75rem; cursor: pointer; margin-left: auto; }
+.cart-remove:hover { color: var(--burgundy); }
+
+.cart-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 2px solid var(--parchment);
+  background: var(--xanthous-cream);
+  flex-shrink: 0;
+}
+.cart-subtotal-row { display: flex; justify-content: space-between; margin-bottom: .4rem; font-size: .88rem; color: var(--muted); }
+.cart-tax-row { display: flex; justify-content: space-between; margin-bottom: .75rem; font-size: .82rem; color: var(--muted); }
+.cart-total-row {
+  display: flex; justify-content: space-between;
+  font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900;
+  color: var(--burgundy-dark); margin-bottom: 1rem;
+  padding-top: .75rem; border-top: 2px solid var(--parchment);
+}
+
+.checkout-btn {
+  width: 100%; padding: .9rem;
+  background: var(--burgundy-dark); color: var(--xanthous);
+  border: 2px solid var(--burgundy-dark); border-radius: 10px;
+  font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
+  cursor: pointer; transition: all .2s; letter-spacing: .5px;
+  margin-bottom: .6rem;
+}
+.checkout-btn:hover { background: var(--burgundy); border-color: var(--xanthous); }
+
+.receipt-btn {
+  width: 100%; padding: .75rem;
+  background: var(--xanthous); color: var(--burgundy-dark);
+  border: 2px solid var(--xanthous); border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+}
+.receipt-btn:hover { background: var(--xanthous-dark); border-color: var(--xanthous-dark); }
+
+/* ── RECEIPT MODAL ── */
+.receipt-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(42,16,24,.8); backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.receipt-overlay.open { display: flex; }
+
+.receipt-modal {
+  background: var(--white);
+  border-radius: 16px; max-width: 480px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  border: 3px solid var(--xanthous);
+  box-shadow: 0 32px 80px rgba(74,15,28,.5);
+}
+
+/* RECEIPT PRINT STYLES */
+.receipt-paper {
+  font-family: 'Courier New', monospace;
+  padding: 2rem;
+}
+.receipt-header { text-align: center; border-bottom: 2px dashed #ccc; padding-bottom: 1rem; margin-bottom: 1rem; }
+.receipt-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--burgundy-dark); font-style: italic; }
+.receipt-sub { font-size: .75rem; color: var(--muted); margin-top: .25rem; }
+.receipt-info { font-size: .78rem; color: var(--muted); margin: .75rem 0; }
+.receipt-info div { margin-bottom: .2rem; }
+.receipt-divider { border: none; border-top: 1px dashed #ccc; margin: .75rem 0; }
+.receipt-items { margin: .75rem 0; }
+.receipt-row { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .35rem; gap: .5rem; }
+.receipt-row .item-name { flex: 1; }
+.receipt-row .item-qty { width: 30px; text-align: center; color: var(--muted); }
+.receipt-row .item-total { font-weight: 700; min-width: 50px; text-align: right; }
+.receipt-totals { border-top: 2px dashed #ccc; padding-top: .75rem; margin-top: .75rem; }
+.receipt-subtotal { display: flex; justify-content: space-between; font-size: .82rem; color: var(--muted); margin-bottom: .25rem; }
+.receipt-tax { display: flex; justify-content: space-between; font-size: .82rem; color: var(--muted); margin-bottom: .5rem; }
+.receipt-grand { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 900; color: var(--burgundy-dark); font-family: 'Playfair Display', serif; }
+.receipt-footer { text-align: center; margin-top: 1.25rem; padding-top: .75rem; border-top: 2px dashed #ccc; font-size: .72rem; color: var(--muted); line-height: 1.6; }
+.receipt-actions { display: flex; gap: .75rem; padding: 1rem 2rem 1.5rem; }
+.receipt-print-btn { flex: 1; padding: .75rem; background: var(--burgundy-dark); color: var(--xanthous); border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: .88rem; transition: all .2s; }
+.receipt-print-btn:hover { background: var(--burgundy); }
+.receipt-close-btn { flex: 1; padding: .75rem; background: var(--parchment); color: var(--ink); border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: .88rem; transition: all .2s; }
+.receipt-close-btn:hover { background: var(--xanthous-pale); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  background: var(--burgundy-dark); color: var(--xanthous);
+  border: 1px solid var(--xanthous);
+  padding: .75rem 1.75rem; border-radius: 99px;
+  font-size: .88rem; font-weight: 600;
+  z-index: 2000; opacity: 0;
+  transition: opacity .3s, bottom .3s;
+  white-space: nowrap; pointer-events: none;
+  box-shadow: 0 8px 32px rgba(74,15,28,.4);
+}
+.toast.show { opacity: 1; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--burgundy-dark);
+  border-top: 3px solid var(--xanthous);
+  padding: 2.5rem 3rem;
+  text-align: center; color: rgba(255,255,255,.45);
+  font-size: .82rem; margin-top: 2rem;
+}
+footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; font-style: italic; color: var(--xanthous); margin-bottom: .5rem; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 1.5rem; }
+  .nav-cats { display: none; }
+  .hero-content { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.8rem; }
+  .hero-imgs { display: none; }
+  .menu-section { padding: 2rem 1.25rem; }
+  .search-bar-wrap { padding: .75rem 1.25rem; }
+  .cart-panel { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .items-grid { grid-template-columns: repeat(2,1fr); }
+  .item-img { height: 120px; }
+  .hero h1 { font-size: 2.2rem; }
+}
+
+@media (max-width: 380px) {
+  .items-grid { grid-template-columns: 1fr; }
+}
+
+/* ── PRINT ── */
+@media print {
+  body > *:not(.receipt-overlay) { display: none !important; }
+  .receipt-overlay { position: static; background: none; backdrop-filter: none; padding: 0; }
+  .receipt-modal { border: none; box-shadow: none; max-height: none; }
+  .receipt-actions { display: none; }
+}
+
+.category-pills {
+  display: flex; gap: .5rem; flex-wrap: wrap;
+  padding: 1rem 3rem;
+  background: var(--parchment);
+  border-bottom: 1px solid var(--parchment);
+}
+
+.pill {
+  background: var(--white); border: 1.5px solid var(--parchment);
+  border-radius: 99px; padding: .4rem 1rem;
+  font-size: .78rem; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.pill:hover { border-color: var(--burgundy-light); color: var(--burgundy); }
+.pill.active { background: var(--burgundy); color: var(--xanthous); border-color: var(--burgundy); }
+
+.cat-section { margin-bottom: 3.5rem; }
+.cat-section-header {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.cat-section-icon { font-size: 1.75rem; }
+.cat-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 900; color: var(--burgundy-dark);
+}
+.cat-section-title em { color: var(--burgundy-light); font-style: italic; }
+.cat-section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--xanthous), transparent); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    Velvet Brew
+    <span>Coffee · Tea · Cakes</span>
+  </div>
+  <div class="nav-cats">
+    <button class="cat-btn active" onclick="filterCat('all')">All</button>
+    <button class="cat-btn" onclick="filterCat('espresso')">Espresso</button>
+    <button class="cat-btn" onclick="filterCat('cold')">Cold Brew</button>
+    <button class="cat-btn" onclick="filterCat('specialty')">Specialty</button>
+    <button class="cat-btn" onclick="filterCat('tea')">Green Tea</button>
+    <button class="cat-btn" onclick="filterCat('cake')">Cakes</button>
+    <button class="cat-btn" onclick="filterCat('pastry')">Pastries</button>
+  </div>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="openCart()">
+      🛒 Cart <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-tag">☕ Est. 2019 · Artisan Roasters</div>
+      <h1>Where Every<br>Cup Tells a<br><em>Story</em></h1>
+      <p>Hand-crafted coffees, ceremonial green teas, and exquisite cakes baked fresh each morning in our burgundy-hued bakery.</p>
+      <button class="cart-btn" style="display:inline-flex" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+        Explore Menu ↓
+      </button>
+    </div>
+    <div class="hero-imgs">
+      <div class="hero-img-main">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=80" alt="Coffee shop atmosphere" loading="lazy">
+        <div class="img-label">☕ Our Roastery</div>
+      </div>
+      <div class="hero-img-small">
+        <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80" alt="Latte art" loading="lazy">
+        <div class="img-label">Latte Art</div>
+      </div>
+      <div class="hero-img-small">
+        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30ef07?w=600&q=80" alt="Fresh cakes" loading="lazy">
+        <div class="img-label">Fresh Cakes</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-bar-wrap">
+  <span class="search-label">🔍 Search:</span>
+  <input type="text" class="search-input" id="searchInput" placeholder="Search coffees, teas, cakes..." oninput="doSearch(this.value)">
+</div>
+
+<!-- CATEGORY PILLS -->
+<div class="category-pills" id="categoryPills">
+  <span class="pill active" onclick="filterCat('all',this)">All Items</span>
+  <span class="pill" onclick="filterCat('espresso',this)">☕ Espresso</span>
+  <span class="pill" onclick="filterCat('cold',this)">🧊 Cold Brew</span>
+  <span class="pill" onclick="filterCat('specialty',this)">✨ Specialty Coffee</span>
+  <span class="pill" onclick="filterCat('tea',this)">🍵 Green Tea</span>
+  <span class="pill" onclick="filterCat('cake',this)">🎂 Cakes</span>
+  <span class="pill" onclick="filterCat('pastry',this)">🥐 Pastries</span>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="menu-section">
+  <div id="menuContent"></div>
+</div>
+
+<!-- CART OVERLAY & PANEL -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <div class="cart-title">☕ Your Order</div>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="empty-icon">☕</div>
+      <p>Your cart is empty.<br>Add something delicious!</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-subtotal-row"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+    <div class="cart-tax-row"><span>Tax (8.5%)</span><span id="cartTax">$0.00</span></div>
+    <div class="cart-total-row"><span>Total</span><span id="cartTotal">$0.00</span></div>
+    <button class="checkout-btn" onclick="showReceipt()">✓ Place Order</button>
+    <button class="receipt-btn" onclick="showReceipt()">🧾 Print Receipt</button>
+  </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div class="receipt-overlay" id="receiptOverlay">
+  <div class="receipt-modal">
+    <div class="receipt-paper" id="receiptPaper"></div>
+    <div class="receipt-actions">
+      <button class="receipt-print-btn" onclick="window.print()">🖨️ Print Receipt</button>
+      <button class="receipt-close-btn" onclick="closeReceipt()">← Back to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-logo">Velvet Brew</div>
+  <div>123 Aroma Lane, Beantown · Mon–Sun 7am–9pm · (555) 428-7300</div>
+  <div style="margin-top:.4rem">Made with ☕ and ❤️ — Fresh baked daily</div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   MENU DATA — 54 ITEMS
+══════════════════════════════════════ */
+
+// Shared image pools by category
+const imgs = {
+  espresso: [
+    'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=75',
+    'https://images.unsplash.com/photo-1485808191679-5f86510bd9d4?w=400&q=75',
+    'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&q=75',
+    'https://images.unsplash.com/photo-1568649929103-28ffbefaca1e?w=400&q=75',
+  ],
+  cold: [
+    'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=75',
+    'https://images.unsplash.com/photo-1568649929103-28ffbefaca1e?w=400&q=75',
+    'https://images.unsplash.com/photo-1497636577773-f1231844b336?w=400&q=75',
+  ],
+  specialty: [
+    'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=75',
+    'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&q=75',
+    'https://images.unsplash.com/photo-1507919981502-05dab80b4049?w=400&q=75',
+  ],
+  tea: [
+    'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&q=75',
+    'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400&q=75',
+    'https://images.unsplash.com/photo-1582576163090-08f4a5b04be8?w=400&q=75',
+    'https://images.unsplash.com/photo-1510617060620-a5b5f1c0b0c3?w=400&q=75',
+  ],
+  cake: [
+    'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=400&q=75',
+    'https://images.unsplash.com/photo-1606313564200-e75d5e30ef07?w=400&q=75',
+    'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=75',
+    'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=400&q=75',
+    'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=75',
+  ],
+  pastry: [
+    'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=75',
+    'https://images.unsplash.com/photo-1509365465985-25d11c17e812?w=400&q=75',
+    'https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&q=75',
+    'https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=400&q=75',
+  ],
+};
+
+function img(cat, i) { const a = imgs[cat]; return a[i % a.length]; }
+
+const menuData = [
+  // ── ESPRESSO (10 items) ──
+  { id:1,  cat:'espresso', name:'Classic Espresso',          desc:'Double shot of our signature dark roast, velvety crema on top.',           price:3.50, badge:'best', img:img('espresso',0) },
+  { id:2,  cat:'espresso', name:'Cortado',                   desc:'Equal parts espresso and warm silky milk, perfectly balanced.',             price:4.20, badge:'hot',  img:img('espresso',1) },
+  { id:3,  cat:'espresso', name:'Flat White',                desc:'Ristretto shots with micro-foam steamed whole milk.',                       price:4.50, badge:'best', img:img('espresso',2) },
+  { id:4,  cat:'espresso', name:'Cappuccino',                desc:'Espresso, steamed milk, and thick foam in perfect thirds.',                 price:4.75, badge:null,   img:img('espresso',3) },
+  { id:5,  cat:'espresso', name:'Latte',                     desc:'Smooth espresso with generous steamed milk and light foam.',                price:5.00, badge:'new',  img:img('espresso',0) },
+  { id:6,  cat:'espresso', name:'Macchiato',                 desc:'Espresso "stained" with a dollop of velvety foam.',                        price:3.75, badge:null,   img:img('espresso',1) },
+  { id:7,  cat:'espresso', name:'Americano',                 desc:'Double espresso diluted with hot water — bold and clean.',                  price:3.50, badge:null,   img:img('espresso',2) },
+  { id:8,  cat:'espresso', name:'Lungo',                     desc:'Extended espresso pull for a longer, lighter cup.',                         price:3.80, badge:null,   img:img('espresso',3) },
+  { id:9,  cat:'espresso', name:'Ristretto',                 desc:'Ultra-concentrated short pull espresso, intensely sweet.',                  price:3.50, badge:'hot',  img:img('espresso',0) },
+  { id:10, cat:'espresso', name:'Double Espresso Con Panna', desc:'Two shots topped with a swirl of whipped cream.',                           price:4.50, badge:null,   img:img('espresso',1) },
+
+  // ── COLD BREW (8 items) ──
+  { id:11, cat:'cold', name:'Classic Cold Brew',           desc:'18-hour steep, incredibly smooth with chocolate notes.',                    price:5.50, badge:'best', img:img('cold',0) },
+  { id:12, cat:'cold', name:'Nitro Cold Brew',             desc:'Cold brew infused with nitrogen for a creamy, stout-like pour.',            price:6.00, badge:'new',  img:img('cold',1) },
+  { id:13, cat:'cold', name:'Cold Brew Tonic',             desc:'Cold brew over sparkling tonic water — bright and refreshing.',             price:6.25, badge:'new',  img:img('cold',2) },
+  { id:14, cat:'cold', name:'Vanilla Sweet Cream Cold Brew',desc:'Cold brew with house-made vanilla sweet cream float.',                     price:6.50, badge:'hot',  img:img('cold',0) },
+  { id:15, cat:'cold', name:'Cold Brew Lemonade',          desc:'Bright citrus meets deep cold brew — summer in a glass.',                   price:6.00, badge:null,   img:img('cold',1) },
+  { id:16, cat:'cold', name:'Salted Caramel Cold Brew',    desc:'Rich cold brew with buttery salted caramel syrup.',                         price:6.25, badge:null,   img:img('cold',2) },
+  { id:17, cat:'cold', name:'Iced Americano',              desc:'Bold espresso shots over ice, clean and refreshing.',                       price:4.50, badge:null,   img:img('cold',0) },
+  { id:18, cat:'cold', name:'Iced Latte',                  desc:'Espresso, cold milk, ice — simple perfection.',                             price:5.25, badge:null,   img:img('cold',1) },
+
+  // ── SPECIALTY COFFEE (8 items) ──
+  { id:19, cat:'specialty', name:'Honey Lavender Latte',     desc:'Espresso, lavender syrup, honey, and oat milk — floral and sweet.',        price:6.50, badge:'best', img:img('specialty',0) },
+  { id:20, cat:'specialty', name:'Cinnamon Dolce Latte',     desc:'Warm cinnamon-spiced latte dusted with brown sugar.',                      price:6.25, badge:null,   img:img('specialty',1) },
+  { id:21, cat:'specialty', name:'Burgundy Rose Mocha',      desc:'Dark chocolate, rose water, espresso and steamed milk.',                   price:6.75, badge:'hot',  img:img('specialty',2) },
+  { id:22, cat:'specialty', name:'Cardamom Spiced Latte',    desc:'Middle-Eastern spiced espresso with steamed milk and cardamom.',           price:6.50, badge:null,   img:img('specialty',0) },
+  { id:23, cat:'specialty', name:'Salted Honey Cappuccino',  desc:'Espresso with honey, sea salt, and micro-foam.',                          price:5.75, badge:null,   img:img('specialty',1) },
+  { id:24, cat:'specialty', name:'White Chocolate Mocha',    desc:'Espresso, white chocolate sauce, steamed milk.',                           price:6.25, badge:null,   img:img('specialty',2) },
+  { id:25, cat:'specialty', name:'Caramel Macchiato',        desc:'Vanilla latte with caramel drizzle, espresso poured over.',               price:6.00, badge:'best', img:img('specialty',0) },
+  { id:26, cat:'specialty', name:'Velvet Brew Signature',    desc:'Our secret: single-origin, hibiscus bloom, dark chocolate, oat milk.',    price:7.50, badge:'hot',  img:img('specialty',1) },
+
+  // ── GREEN TEA (10 items) ──
+  { id:27, cat:'tea', name:'Classic Matcha Latte',         desc:'Ceremonial grade matcha whisked with steamed oat milk.',                    price:5.75, badge:'veg',  img:img('tea',0) },
+  { id:28, cat:'tea', name:'Iced Matcha Latte',            desc:'Chilled matcha oat milk poured over crystal ice.',                          price:5.75, badge:'veg',  img:img('tea',1) },
+  { id:29, cat:'tea', name:'Hojicha Latte',                desc:'Roasted Japanese green tea — earthy, toasty, warm.',                        price:5.50, badge:'new',  img:img('tea',2) },
+  { id:30, cat:'tea', name:'Matcha Affogato',              desc:'Ceremonial matcha pour over a scoop of vanilla gelato.',                    price:7.00, badge:'hot',  img:img('tea',3) },
+  { id:31, cat:'tea', name:'Jasmine Green Tea',            desc:'Loose-leaf jasmine green tea — fragrant and delicate.',                     price:4.50, badge:'veg',  img:img('tea',0) },
+  { id:32, cat:'tea', name:'Sencha Pour-Over',             desc:'Premium Japanese sencha brewed to order, single glass.',                    price:5.00, badge:null,   img:img('tea',1) },
+  { id:33, cat:'tea', name:'Genmaicha',                    desc:'Green tea blended with roasted brown rice — nutty and smooth.',             price:4.75, badge:'veg',  img:img('tea',2) },
+  { id:34, cat:'tea', name:'Matcha Tonic',                 desc:'Ceremonial matcha over sparkling yuzu tonic water.',                        price:6.00, badge:'new',  img:img('tea',3) },
+  { id:35, cat:'tea', name:'Honey Matcha Lemonade',        desc:'Matcha, fresh lemon juice, honey, sparkling water.',                        price:6.25, badge:'best', img:img('tea',0) },
+  { id:36, cat:'tea', name:'Gyokuro Reserve',              desc:'Shade-grown Japanese green tea, umami-rich and precious.',                  price:7.50, badge:'hot',  img:img('tea',1) },
+
+  // ── CAKES (10 items) ──
+  { id:37, cat:'cake', name:'Red Velvet Layer Cake',       desc:'Classic red velvet with cream cheese frosting, fresh daily.',               price:6.50, badge:'best', img:img('cake',0) },
+  { id:38, cat:'cake', name:'Burgundy Chocolate Cake',     desc:'Dense dark chocolate cake with red wine ganache and gold dust.',            price:7.25, badge:'hot',  img:img('cake',1) },
+  { id:39, cat:'cake', name:'Honey Xanthous Cake',         desc:'Saffron and honey sponge with xanthous buttercream and edible gold.',       price:8.00, badge:'new',  img:img('cake',2) },
+  { id:40, cat:'cake', name:'Matcha Opera Cake',           desc:'Layers of matcha dacquoise, mocha buttercream, dark glaze.',               price:7.50, badge:'veg',  img:img('cake',3) },
+  { id:41, cat:'cake', name:'Lemon Posset Cake',           desc:'Light citrus sponge with lemon curd and cloud-like meringue.',             price:6.75, badge:null,   img:img('cake',4) },
+  { id:42, cat:'cake', name:'Earl Grey Chiffon Cake',      desc:'Tea-infused chiffon with lavender glaze and dried rose petals.',           price:7.00, badge:null,   img:img('cake',0) },
+  { id:43, cat:'cake', name:'Tiramisu Tower Cake',         desc:'Espresso-soaked ladyfingers stacked tall with mascarpone cream.',          price:7.75, badge:'hot',  img:img('cake',1) },
+  { id:44, cat:'cake', name:'Raspberry Rose Cake',         desc:'Vanilla bean sponge with fresh raspberry jam and rosewater frosting.',     price:7.25, badge:'new',  img:img('cake',2) },
+  { id:45, cat:'cake', name:'Caramel Praline Slice',       desc:'Buttery caramel cake with crushed praline and sea salt flakes.',           price:6.50, badge:null,   img:img('cake',3) },
+  { id:46, cat:'cake', name:'Flourless Chocolate Torte',   desc:'Dense, fudgy, gluten-free chocolate torte dusted with cocoa.',             price:7.50, badge:'veg',  img:img('cake',4) },
+
+  // ── PASTRIES (8 items) ──
+  { id:47, cat:'pastry', name:'Classic Butter Croissant',   desc:'Laminated dough, 27 buttery layers, baked to golden perfection.',          price:3.75, badge:'best', img:img('pastry',0) },
+  { id:48, cat:'pastry', name:'Pain au Chocolat',           desc:'Flaky croissant folded around Belgian dark chocolate batons.',             price:4.25, badge:null,   img:img('pastry',1) },
+  { id:49, cat:'pastry', name:'Almond Croissant',           desc:'Twice-baked croissant filled with frangipane and flaked almonds.',         price:4.75, badge:'hot',  img:img('pastry',2) },
+  { id:50, cat:'pastry', name:'Matcha Kouign-Amann',        desc:'Caramelized pastry with swirls of ceremonial matcha.',                     price:5.25, badge:'new',  img:img('pastry',3) },
+  { id:51, cat:'pastry', name:'Cinnamon Morning Bun',       desc:'Spiral bun glazed with orange and cinnamon sugar.',                        price:4.50, badge:null,   img:img('pastry',0) },
+  { id:52, cat:'pastry', name:'Cardamom Knot',              desc:'Nordic-style cardamom and brown sugar knotted bun.',                       price:4.25, badge:'new',  img:img('pastry',1) },
+  { id:53, cat:'pastry', name:'Blueberry Scone',            desc:'Buttery scone with fresh blueberries and lemon glaze.',                    price:4.00, badge:'veg',  img:img('pastry',2) },
+  { id:54, cat:'pastry', name:'Pistachio Rose Éclair',      desc:'Choux pastry filled with pistachio cream, rose-pink glaze.',              price:5.50, badge:'hot',  img:img('pastry',3) },
+];
+
+/* ══════════════════════════════════════
+   CART STATE
+══════════════════════════════════════ */
+let cart = {}; // { id: quantity }
+let currentFilter = 'all';
+let currentSearch = '';
+
+/* ══════════════════════════════════════
+   RENDER MENU
+══════════════════════════════════════ */
+const catMeta = {
+  espresso:  { icon:'☕', label:'Espresso' },
+  cold:      { icon:'🧊', label:'Cold Brew' },
+  specialty: { icon:'✨', label:'Specialty Coffee' },
+  tea:       { icon:'🍵', label:'Green Tea' },
+  cake:      { icon:'🎂', label:'Cakes' },
+  pastry:    { icon:'🥐', label:'Pastries & Baked Goods' },
+};
+const catOrder = ['espresso','cold','specialty','tea','cake','pastry'];
+
+function renderMenu() {
+  const area = document.getElementById('menuContent');
+  const search = currentSearch.toLowerCase();
+  const filter = currentFilter;
+
+  let filtered = menuData.filter(item => {
+    const matchCat = filter === 'all' || item.cat === filter;
+    const matchSearch = !search || item.name.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+
+  if (!filtered.length) {
+    area.innerHTML = `<div style="text-align:center;padding:4rem;color:var(--muted)">
+      <div style="font-size:3rem;margin-bottom:1rem">☕</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.4rem">Nothing found</div>
+      <div style="font-size:.88rem;margin-top:.5rem">Try a different search or category</div>
+    </div>`;
+    return;
+  }
+
+  const sections = {};
+  filtered.forEach(item => {
+    if (!sections[item.cat]) sections[item.cat] = [];
+    sections[item.cat].push(item);
+  });
+
+  let html = '';
+  catOrder.forEach(cat => {
+    if (!sections[cat]) return;
+    const m = catMeta[cat];
+    html += `
+      <div class="cat-section" id="cat-${cat}">
+        <div class="cat-section-header">
+          <span class="cat-section-icon">${m.icon}</span>
+          <div class="cat-section-title">${m.label}</div>
+          <div class="cat-section-line"></div>
+          <span style="font-size:.78rem;color:var(--muted);white-space:nowrap">${sections[cat].length} item${sections[cat].length!==1?'s':''}</span>
+        </div>
+        <div class="items-grid">
+          ${sections[cat].map((item, idx) => renderCard(item, idx)).join('')}
+        </div>
+      </div>`;
+  });
+
+  area.innerHTML = html;
+}
+
+function renderCard(item, idx) {
+  const qty = cart[item.id] || 0;
+  const delay = (idx % 8) * 50;
+  const badgeHtml = item.badge
+    ? `<span class="item-badge badge-${item.badge}">${item.badge==='best'?'★ Best':item.badge==='hot'?'🔥 Hot':item.badge==='new'?'New':'🌱 Veg'}</span>`
+    : '';
+
+  const ctrlHtml = qty > 0
+    ? `<div class="qty-ctrl">
+         <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+         <span class="qty-num" id="qnum-${item.id}">${qty}</span>
+         <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+       </div>`
+    : `<button class="add-btn" id="addbtn-${item.id}" onclick="addItem(${item.id})">+</button>`;
+
+  return `
+    <div class="item-card" style="animation-delay:${delay}ms" id="card-${item.id}">
+      <div class="item-img">
+        <img src="${item.img}" alt="${item.name}" loading="lazy">
+        ${badgeHtml}
+      </div>
+      <div class="item-body">
+        <div class="item-cat">${catMeta[item.cat].icon} ${catMeta[item.cat].label}</div>
+        <div class="item-name">${item.name}</div>
+        <div class="item-desc">${item.desc}</div>
+      </div>
+      <div class="item-footer">
+        <div class="item-price">$${item.price.toFixed(2)} <span>/ serving</span></div>
+        <div id="ctrl-${item.id}">${ctrlHtml}</div>
+      </div>
+    </div>`;
+}
+
+function refreshCard(id) {
+  const item = menuData.find(i=>i.id===id);
+  if(!item) return;
+  const ctrl = document.getElementById('ctrl-'+id);
+  if(!ctrl) return;
+  const qty = cart[id] || 0;
+  if(qty > 0) {
+    ctrl.innerHTML = `<div class="qty-ctrl">
+      <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+      <span class="qty-num" id="qnum-${id}">${qty}</span>
+      <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+    </div>`;
+  } else {
+    ctrl.innerHTML = `<button class="add-btn" id="addbtn-${id}" onclick="addItem(${id})">+</button>`;
+  }
+}
+
+/* ══════════════════════════════════════
+   CART ACTIONS
+══════════════════════════════════════ */
+function addItem(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  refreshCard(id);
+  updateCartUI();
+  showToast('Added to order!');
+}
+
+function changeQty(id, delta) {
+  cart[id] = (cart[id] || 0) + delta;
+  if(cart[id] <= 0) delete cart[id];
+  refreshCard(id);
+  updateCartUI();
+  renderCartItems();
+}
+
+function removeFromCart(id) {
+  delete cart[id];
+  refreshCard(id);
+  updateCartUI();
+  renderCartItems();
+}
+
+function getCartTotals() {
+  let sub = 0;
+  Object.entries(cart).forEach(([id, qty]) => {
+    const item = menuData.find(i=>i.id==id);
+    if(item) sub += item.price * qty;
+  });
+  const tax = sub * 0.085;
+  return { sub, tax, total: sub + tax };
+}
+
+function updateCartUI() {
+  const count = Object.values(cart).reduce((a,b)=>a+b,0);
+  document.getElementById('cartCount').textContent = count;
+  const totals = getCartTotals();
+  const footer = document.getElementById('cartFooter');
+  if(count > 0) {
+    footer.style.display = 'block';
+    document.getElementById('cartSubtotal').textContent = '$'+totals.sub.toFixed(2);
+    document.getElementById('cartTax').textContent = '$'+totals.tax.toFixed(2);
+    document.getElementById('cartTotal').textContent = '$'+totals.total.toFixed(2);
+  } else {
+    footer.style.display = 'none';
+  }
+}
+
+function renderCartItems() {
+  const area = document.getElementById('cartItems');
+  const entries = Object.entries(cart);
+  if(!entries.length) {
+    area.innerHTML = `<div class="cart-empty"><div class="empty-icon">☕</div><p>Your cart is empty.<br>Add something delicious!</p></div>`;
+    return;
+  }
+  area.innerHTML = entries.map(([id, qty]) => {
+    const item = menuData.find(i=>i.id==id);
+    if(!item) return '';
+    return `<div class="cart-item">
+      <div class="cart-item-img"><img src="${item.img}" alt="${item.name}" loading="lazy"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">$${(item.price*qty).toFixed(2)}</div>
+        <div class="cart-item-ctrl">
+          <button class="qty-btn" onclick="changeQty(${id},-1)">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" onclick="changeQty(${id},1)">+</button>
+          <button class="cart-remove" onclick="removeFromCart(${id})">✕ Remove</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openCart() {
+  renderCartItems();
+  updateCartUI();
+  document.getElementById('cartPanel').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+}
+function closeCart() {
+  document.getElementById('cartPanel').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+}
+
+/* ══════════════════════════════════════
+   RECEIPT
+══════════════════════════════════════ */
+function showReceipt() {
+  const entries = Object.entries(cart);
+  if(!entries.length) { showToast('Your cart is empty!'); return; }
+
+  const totals = getCartTotals();
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const timeStr = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  const orderNo = 'VB-' + String(Math.floor(1000+Math.random()*9000));
+
+  let itemsHtml = '';
+  entries.forEach(([id,qty]) => {
+    const item = menuData.find(i=>i.id==id);
+    if(!item) return;
+    itemsHtml += `
+      <div class="receipt-row">
+        <span class="item-name">${item.name}</span>
+        <span class="item-qty">×${qty}</span>
+        <span class="item-total">$${(item.price*qty).toFixed(2)}</span>
+      </div>`;
+  });
+
+  const receiptHtml = `
+    <div class="receipt-header">
+      <div class="receipt-logo">Velvet Brew</div>
+      <div class="receipt-sub">Coffee · Green Tea · Artisan Cakes</div>
+      <div class="receipt-sub" style="margin-top:.2rem">123 Aroma Lane, Beantown · (555) 428-7300</div>
+    </div>
+    <div class="receipt-info">
+      <div><strong>Order #:</strong> ${orderNo}</div>
+      <div><strong>Date:</strong> ${dateStr}</div>
+      <div><strong>Time:</strong> ${timeStr}</div>
+      <div><strong>Served by:</strong> Velvet Brew Team</div>
+    </div>
+    <hr class="receipt-divider">
+    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:.5rem">Order Items</div>
+    <div class="receipt-items">
+      <div class="receipt-row" style="font-weight:700;font-size:.78rem;border-bottom:1px solid #eee;padding-bottom:.3rem;margin-bottom:.5rem">
+        <span class="item-name">Item</span>
+        <span class="item-qty">Qty</span>
+        <span class="item-total">Total</span>
+      </div>
+      ${itemsHtml}
+    </div>
+    <div class="receipt-totals">
+      <div class="receipt-subtotal"><span>Subtotal</span><span>$${totals.sub.toFixed(2)}</span></div>
+      <div class="receipt-tax"><span>Tax (8.5%)</span><span>$${totals.tax.toFixed(2)}</span></div>
+      <div class="receipt-grand"><span>TOTAL</span><span>$${totals.total.toFixed(2)}</span></div>
+    </div>
+    <div class="receipt-footer">
+      Thank you for visiting Velvet Brew!<br>
+      <em>"Every cup, a little story."</em><br><br>
+      Wi-Fi Password: velvetbrew2024<br>
+      Follow us @velvetbrew · velvetbrew.com<br><br>
+      ★ Rate your experience — ask your barista! ★
+    </div>`;
+
+  document.getElementById('receiptPaper').innerHTML = receiptHtml;
+  document.getElementById('receiptOverlay').classList.add('open');
+}
+
+function closeReceipt() {
+  document.getElementById('receiptOverlay').classList.remove('open');
+}
+
+/* ══════════════════════════════════════
+   FILTER & SEARCH
+══════════════════════════════════════ */
+function filterCat(cat, pillEl) {
+  currentFilter = cat;
+  // update pills
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  if(pillEl) pillEl.classList.add('active');
+  // update nav cats
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  renderMenu();
+}
+
+function doSearch(val) {
+  currentSearch = val;
+  renderMenu();
+}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+renderMenu();
+</script>
+</body>
+</html>
